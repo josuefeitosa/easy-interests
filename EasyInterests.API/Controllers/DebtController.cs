@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyInterests.API.Controllers
 {
     [ApiController]
-    [Route("api/debts")]
+    [Route("api/v1/debts")]
     public class DebtController : ControllerBase
     {
         [HttpGet]

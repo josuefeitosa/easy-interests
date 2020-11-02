@@ -1,10 +1,18 @@
 using System.Collections.Generic;
+using System.Linq;
 using EasyInterests.API.Application.Models;
 
-namespace EasyInterests.API.Application.Services
+namespace EasyInterests.API.Infrastructure.Repositories
 {
-  public class UserService : IUserService
+  public class UserRepository : IUserRepository
   {
+    private readonly EasyInterestsDBContext _dbContext;
+
+    public UserRepository(EasyInterestsDBContext dbContext)
+    {
+      _dbContext = dbContext;
+    }
+
     public void Create()
     {
       throw new System.NotImplementedException();
@@ -12,7 +20,7 @@ namespace EasyInterests.API.Application.Services
 
     public List<User> GetAll()
     {
-      throw new System.NotImplementedException();
+      return _dbContext.Users.ToList();
     }
 
     public User GetUser(int Id)
