@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyInterests.API.Infrastructure.Migrations
 {
     [DbContext(typeof(EasyInterestsDBContext))]
-    [Migration("20201103131634_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20201103171846_MigrationOne")]
+    partial class MigrationOne
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -137,13 +137,13 @@ namespace EasyInterests.API.Infrastructure.Migrations
             modelBuilder.Entity("EasyInterests.API.Application.Models.Debt", b =>
                 {
                     b.HasOne("EasyInterests.API.Application.Models.User", "Customer")
-                        .WithMany("DebtAsCustomer")
+                        .WithMany("DebtsAsCustomer")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("EasyInterests.API.Application.Models.User", "Negotiator")
-                        .WithMany("DebtAsNegotiator")
+                        .WithMany("DebtsAsNegotiator")
                         .HasForeignKey("NegotiatorId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
@@ -171,9 +171,9 @@ namespace EasyInterests.API.Infrastructure.Migrations
 
             modelBuilder.Entity("EasyInterests.API.Application.Models.User", b =>
                 {
-                    b.Navigation("DebtAsCustomer");
+                    b.Navigation("DebtsAsCustomer");
 
-                    b.Navigation("DebtAsNegotiator");
+                    b.Navigation("DebtsAsNegotiator");
                 });
 #pragma warning restore 612, 618
         }

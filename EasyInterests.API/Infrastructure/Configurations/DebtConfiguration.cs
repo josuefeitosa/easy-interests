@@ -23,14 +23,14 @@ namespace EasyInterests.API.Infrastructure.Configurations
 
       builder
         .HasOne(x => x.Customer)
-        .WithMany(x => x.DebtAsCustomer)
+        .WithMany(x => x.DebtsAsCustomer)
         .HasForeignKey(x => x.CustomerId)
         .OnDelete(DeleteBehavior.SetNull)
         .IsRequired();
 
       builder
         .HasOne(x => x.Negotiator)
-        .WithMany(x => x.DebtAsNegotiator)
+        .WithMany(x => x.DebtsAsNegotiator)
         .HasForeignKey(x => x.NegotiatorId)
         .OnDelete(DeleteBehavior.SetNull)
         .IsRequired();

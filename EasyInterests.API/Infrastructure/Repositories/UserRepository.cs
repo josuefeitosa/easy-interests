@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EasyInterests.API.Application.Models;
 
 namespace EasyInterests.API.Infrastructure.Repositories
@@ -13,29 +15,91 @@ namespace EasyInterests.API.Infrastructure.Repositories
       _dbContext = dbContext;
     }
 
-    public void Create()
+    public async void Create(User user)
     {
-      throw new System.NotImplementedException();
+      try
+      {
+        var createdUser = await _dbContext.Users.AddAsync(user);
+
+        await _dbContext.SaveChangesAsync();
+      }
+      catch (Exception e)
+      {
+        throw new Exception($"Houve um problema ao fazer esta operação.\n-> {e.Message}");
+      }
     }
 
     public List<User> GetAll()
     {
-      return _dbContext.Users.ToList();
+      try
+      {
+        var users = _dbContext.Users.ToList();
+
+        return users;
+      }
+      catch (Exception e)
+      {
+        throw new Exception($"Houve um problema ao buscar os dados solicitados.\n-> {e.Message}");
+      }
     }
 
-    public User GetUser(int Id)
+    public async Task<User> GetUser(int Id)
     {
-      throw new System.NotImplementedException();
+      try
+      {
+        var user = await _dbContext.Users.FindAsync(Id);
+
+        if (user is null)
+        {
+          throw new Exception("Not Found");
+        }
+
+        return user;
+      }
+      catch (Exception e)
+      {
+        throw new Exception($"Houve um problema ao buscar os dados solicitados.\n-> {e.Message}");
+      }
     }
 
     public User GetUserByEmail(string Email)
     {
-      throw new System.NotImplementedException();
+      try
+      {
+        var user = _dbContext.Users.SingleOrDefault(x => x.Email == Email);
+
+        if (user is null)
+        {
+          throw new Exception("Not Found");
+        }
+
+        return user;
+      }
+      catch (Exception e)
+      {
+        throw new Exception($"Houve um problema ao buscar os dados solicitados.\n-> {e.Message}");
+      }
     }
 
-    public void Update(int Id)
+    public async void Update(int Id, User updatedUser)
     {
-      throw new System.NotImplementedException();
+      try
+      {
+        var user = await _dbContext.Users.FindAsync(Id);
+
+        if (user is null)
+        {
+          throw new Exception("Not Found");
+        }
+
+        _dbContext.Users.Update(updatedUser);
+
+        await _dbContext.SaveChangesAsync();
+      }
+      catch (Exception e)
+      {
+        throw new Exception($"Houve um problema ao fazer esta operação.\n-> {e.Message}");
+      }
     }
   }
 }
