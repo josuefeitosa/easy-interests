@@ -63,4 +63,3 @@ Desenvolva um sistema que atualize o cálculo de uma dívida.
 
 - Ações
     - Cliente poderá  visualizar as dívidas corrigidas juntamente do número do negociador
-    - Negociador poderá recalcular dívida com comissão sobre a correção
