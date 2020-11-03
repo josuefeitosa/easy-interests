@@ -3,17 +3,28 @@ using EasyInterests.API.Enums;
 
 namespace EasyInterests.API.Application.Models
 {
-    public class User
+  public class User
+  {
+    public User(int id, string name, string email, UserRolesEnum role, string phoneNumber)
     {
-      public int Id { get; set; }
-      public string Name { get; set; }
-      public string Email { get; set; }
-      public UserRolesEnum Role { get; set; }
-      public string Password { get; set; }
-    }
+      this.Id = id;
+      this.Name = name;
+      this.Email = email;
+      this.Role = role;
+      this.PhoneNumber = phoneNumber;
 
-    public class Auth
-    {
-      public string Email { get; set; }
     }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public UserRolesEnum Role { get; set; }
+    public string PhoneNumber { get; set; }
+    public virtual ICollection<Debt> DebtAsCustomer { get; set; }
+    public virtual ICollection<Debt> DebtAsNegotiator { get; set; }
+  }
+
+  public class Auth
+  {
+    public string Email { get; set; }
+  }
 }

@@ -11,10 +11,13 @@ namespace EasyInterests.API.Infrastructure
 
       public DbSet<User> Users { get; set; }
       public DbSet<Debt> Debts { get; set; }
+      public DbSet<DebtParcel> DebtParcels { get; set; }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
       {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new DebtConfiguration());
+        modelBuilder.ApplyConfiguration(new DebtParcelConfiguration());
       }
     }
 }
