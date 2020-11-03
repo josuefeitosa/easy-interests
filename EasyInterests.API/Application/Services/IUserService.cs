@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EasyInterests.API.Application.DTOs;
 using EasyInterests.API.Application.Models;
 
 namespace EasyInterests.API.Application.Services
@@ -8,7 +9,7 @@ namespace EasyInterests.API.Application.Services
       List<User> GetAll();
       User GetUser(int Id);
       User GetUserByEmail(string Email);
-      void Create();
-      void Update(int Id);
+      void Create(CreateUserDTO user);
+      void Update(int Id, UpdateUserDTO updatedUser);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyInterests.API.Application.Models;
+using System.Data;
 
 namespace EasyInterests.API.Infrastructure.Repositories
 {
@@ -85,14 +86,24 @@ namespace EasyInterests.API.Infrastructure.Repositories
     {
       try
       {
-        var user = await _dbContext.Users.FindAsync(Id);
+        var user = _dbContext.Users.FirstOrDefault(x => x.Id == Id);
 
         if (user is null)
         {
           throw new Exception("Not Found");
         }
 
-        _dbContext.Users.Update(updatedUser);
+        if (updatedUser.Name != null)
+          user.Name = updatedUser.Name;
+
+        if (updatedUser.Email != null)
+          user.Email = updatedUser.Email;
+
+        if (updatedUser.PhoneNumber != null)
+          user.PhoneNumber = updatedUser.PhoneNumber;
+
+        if (updatedUser.Role != 0)
+          user.Role = updatedUser.Role;
 
         await _dbContext.SaveChangesAsync();
       }

@@ -5,9 +5,10 @@ namespace EasyInterests.API.Application.Models
 {
   public class User
   {
-    public User(int id, string name, string email, UserRolesEnum role, string phoneNumber)
+    public User()
+    {}
+    public User(string name, string email, UserRolesEnum role, string phoneNumber)
     {
-      this.Id = id;
       this.Name = name;
       this.Email = email;
       this.Role = role;
