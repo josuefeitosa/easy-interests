@@ -39,8 +39,9 @@ namespace EasyInterests.API.Controllers
           Token = token
         });
       }
-      catch (Exception)
+      catch (Exception e)
       {
+        Console.WriteLine(e.Message);
         return BadRequest(new { Message = "Ocorreu algum erro interno na aplicação, por favor tente novamente." });
       }
     }

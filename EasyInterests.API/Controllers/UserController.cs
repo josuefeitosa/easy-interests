@@ -4,6 +4,7 @@ using EasyInterests.API.Application.DTOs;
 using EasyInterests.API.Application.Models;
 using EasyInterests.API.Application.Services;
 using EasyInterests.API.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyInterests.API.Controllers
@@ -20,12 +21,14 @@ namespace EasyInterests.API.Controllers
     }
 
     [HttpGet]
+    [Authorize(Roles = "Negotiator")]
     public ActionResult<List<User>> GetAll()
     {
       return Ok(_userService.GetAll());
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Negotiator")]
     public ActionResult<User> GetUser(int id)
     {
       try
@@ -47,6 +50,7 @@ namespace EasyInterests.API.Controllers
 
     [HttpGet]
     [Route("email")]
+    [Authorize(Roles = "Negotiator")]
     public ActionResult<User> GetUserByEmail([FromQuery]string email)
     {
       try
@@ -67,6 +71,7 @@ namespace EasyInterests.API.Controllers
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public IActionResult Post([FromBody]CreateUserDTO user)
     {
       try
@@ -82,6 +87,7 @@ namespace EasyInterests.API.Controllers
     }
 
     [HttpPut]
+    [Authorize(Roles = "Negotiator")]
     public IActionResult Put([FromQuery]int Id,[FromBody]UpdateUserDTO user)
     {
       try

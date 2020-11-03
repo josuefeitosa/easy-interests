@@ -10,6 +10,7 @@ using EasyInterests.API.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,27 +39,6 @@ namespace EasyInterests.API
         {
             services.AddControllers();
 
-            #region Swagger
-              services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo {
-                  Version = "v1",
-                  Title = "Easy Interests API",
-                  Description = "API para cálculo de correção de dívidas com negociador",
-                  Contact = new OpenApiContact{
-                    Name = "Josué Feitosa",
-                    Email = "josue.feitosa@outlook.com.br",
-                    Url = new Uri("https://github.com/josuefeitosa")
-                  }
-                });
-              });
-            #endregion
-
-            #region Connection to DB for DBContext
-              services.AddDbContext<EasyInterestsDBContext>(options =>
-                  options.UseSqlite(Configuration["ConnectionStringSQLite"])
-              );
-            #endregion
-
             #region JWT Config
               services.AddAuthentication(x =>
               {
@@ -77,6 +57,48 @@ namespace EasyInterests.API
                       ValidateAudience = false
                   };
               });
+            #endregion
+
+            #region Swagger
+              services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                  Version = "v1",
+                  Title = "Easy Interests API",
+                  Description = "API para cálculo de correção de dívidas com negociador",
+                  Contact = new OpenApiContact{
+                    Name = "Josué Feitosa",
+                    Email = "josue.feitosa@outlook.com.br",
+                    Url = new Uri("https://github.com/josuefeitosa")
+                  }
+                });
+
+                //Security schema configurating to JWT Token
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {securityScheme, new string[] { }}
+                });
+              });
+            #endregion
+
+            #region Connection to DB for DBContext
+              services.AddDbContext<EasyInterestsDBContext>(options =>
+                  options.UseSqlite(Configuration["ConnectionStringSQLite"])
+              );
             #endregion
 
             #region Dependency Injection
@@ -110,14 +132,19 @@ namespace EasyInterests.API
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
 
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
