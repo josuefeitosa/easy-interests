@@ -110,6 +110,9 @@ namespace EasyInterests.API
 
               services.AddScoped<IUserRepository, UserRepository>();
               services.AddScoped<IUserService, UserService>();
+
+              // services.AddScoped<IDebtRepository, DebtRepository>();
+              services.AddScoped<IDebtService, DebtService>();
             #endregion
 
         }

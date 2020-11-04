@@ -35,6 +35,10 @@ namespace EasyInterests.API.Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("due_date");
 
+                    b.Property<DateTime>("InterestCalcDate")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("recalculation_date");
+
                     b.Property<int>("InterestInterval")
                         .HasColumnType("INTEGER")
                         .HasColumnName("interest_interval");
@@ -59,9 +63,17 @@ namespace EasyInterests.API.Infrastructure.Migrations
                         .HasColumnType("REAL")
                         .HasColumnName("original_value");
 
+                    b.Property<bool>("Paid")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("paid");
+
                     b.Property<int>("ParcelsQty")
                         .HasColumnType("INTEGER")
                         .HasColumnName("parcel_qty");
+
+                    b.Property<double>("RecalculatedValue")
+                        .HasColumnType("REAL")
+                        .HasColumnName("recalculation_value");
 
                     b.HasKey("Id");
 
@@ -85,6 +97,10 @@ namespace EasyInterests.API.Infrastructure.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("due_date");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("paid");
 
                     b.Property<int>("Parcel")
                         .HasColumnType("INTEGER")

@@ -12,12 +12,15 @@ namespace EasyInterests.API.Infrastructure.Configurations
 
       builder.Property(x => x.Description).HasColumnName("description").IsRequired();
       builder.Property(x => x.OriginalValue).HasColumnName("original_value").IsRequired();
+      builder.Property(x => x.RecalculatedValue).HasColumnName("recalculation_value").IsRequired();
       builder.Property(x => x.DueDate).HasColumnName("due_date").IsRequired();
+      builder.Property(x => x.InterestCalcDate).HasColumnName("recalculation_date").IsRequired();
       builder.Property(x => x.ParcelsQty).HasColumnName("parcel_qty").IsRequired();
       builder.Property(x => x.InterestType).HasColumnName("interest_type").IsRequired();
       builder.Property(x => x.InterestInterval).HasColumnName("interest_interval").IsRequired();
       builder.Property(x => x.InterestPercentage).HasColumnName("interest_percentage").IsRequired();
       builder.Property(x => x.NegotiatorComissionPercentage).HasColumnName("negotiator_comission_percent").IsRequired();
+      builder.Property(x => x.Paid).HasColumnName("paid");
       builder.Property(x => x.CustomerId).HasColumnName("customer_id").IsRequired();
       builder.Property(x => x.NegotiatorId).HasColumnName("negotiator_id");
 

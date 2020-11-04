@@ -4,6 +4,7 @@ namespace EasyInterests.API.Application.Models
 {
   public class DebtParcel
   {
+    public DebtParcel(){ }
     public DebtParcel(int id, int debtId, int parcel, double value, DateTime dueDate)
     {
       this.Id = id;
@@ -11,7 +12,7 @@ namespace EasyInterests.API.Application.Models
       this.Parcel = parcel;
       this.Value = value;
       this.DueDate = dueDate;
-
+      this.Paid = false;
     }
     public int Id { get; set; }
     public int DebtId { get; set; }
@@ -19,5 +20,6 @@ namespace EasyInterests.API.Application.Models
     public int Parcel { get; set; }
     public double Value { get; set; }
     public DateTime DueDate { get; set; }
+    public bool Paid { get; set; }
   }
 }

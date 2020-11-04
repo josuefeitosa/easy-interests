@@ -13,6 +13,7 @@ namespace EasyInterests.API.Infrastructure.Configurations
       builder.Property(x => x.Parcel).HasColumnName("parcel").IsRequired();
       builder.Property(x => x.Value).HasColumnName("value").IsRequired();
       builder.Property(x => x.DueDate).HasColumnName("due_date").IsRequired();
+      builder.Property(x => x.Paid).HasColumnName("paid").IsRequired();
       builder.Property(x => x.DebtId).HasColumnName("debt_id").IsRequired();
 
       builder

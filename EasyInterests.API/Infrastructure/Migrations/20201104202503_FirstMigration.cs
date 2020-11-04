@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EasyInterests.API.Infrastructure.Migrations
 {
-    public partial class MigrationOne : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,12 +33,15 @@ namespace EasyInterests.API.Infrastructure.Migrations
                     negotiator_id = table.Column<int>(type: "INTEGER", nullable: false),
                     description = table.Column<string>(type: "TEXT", nullable: false),
                     original_value = table.Column<double>(type: "REAL", nullable: false),
+                    recalculation_value = table.Column<double>(type: "REAL", nullable: false),
                     due_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    recalculation_date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     parcel_qty = table.Column<int>(type: "INTEGER", nullable: false),
                     interest_type = table.Column<int>(type: "INTEGER", nullable: false),
                     interest_interval = table.Column<int>(type: "INTEGER", nullable: false),
                     interest_percentage = table.Column<double>(type: "REAL", nullable: false),
-                    negotiator_comission_percent = table.Column<double>(type: "REAL", nullable: false)
+                    negotiator_comission_percent = table.Column<double>(type: "REAL", nullable: false),
+                    paid = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,7 +69,8 @@ namespace EasyInterests.API.Infrastructure.Migrations
                     debt_id = table.Column<int>(type: "INTEGER", nullable: false),
                     parcel = table.Column<int>(type: "INTEGER", nullable: false),
                     value = table.Column<double>(type: "REAL", nullable: false),
-                    due_date = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    due_date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    paid = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
