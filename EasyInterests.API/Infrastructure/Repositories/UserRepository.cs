@@ -69,11 +69,6 @@ namespace EasyInterests.API.Infrastructure.Repositories
       {
         var user = _dbContext.Users.SingleOrDefault(x => x.Email == Email);
 
-        if (user is null)
-        {
-          throw new Exception("Not Found");
-        }
-
         return user;
       }
       catch (Exception e)

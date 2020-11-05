@@ -53,21 +53,12 @@ namespace EasyInterests.API.Controllers
     [Authorize(Roles = "Negotiator")]
     public ActionResult<User> GetUserByEmail([FromQuery]string email)
     {
-      try
-      {
-        return Ok(_userService.GetUserByEmail(email));
-      }
-      catch (Exception e)
-      {
-        if (e.Message.Contains("Not Found"))
-        {
-          return NotFound();
-        }
-        else
-        {
-          return BadRequest(e.Message);
-        }
-      }
+      var user = _userService.GetUserByEmail(email);
+
+      if (user is null)
+        return NotFound("User not found");
+
+      return user;
     }
 
     [HttpPost]
@@ -76,6 +67,11 @@ namespace EasyInterests.API.Controllers
     {
       try
       {
+        var existingUser = _userService.GetUserByEmail(user.Email);
+
+        if (existingUser != null)
+          return Conflict("This email is already in use.");
+
         _userService.Create(user);
 
         return Created("User created", user);
