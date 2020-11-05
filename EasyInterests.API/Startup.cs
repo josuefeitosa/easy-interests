@@ -10,6 +10,7 @@ using EasyInterests.API.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -108,11 +109,18 @@ namespace EasyInterests.API
                 services.AddOptions();
               #endregion
 
-              services.AddScoped<IUserRepository, UserRepository>();
-              services.AddScoped<IUserService, UserService>();
+              #region Authenticated User
+                services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+                services.AddScoped<AuthenticatedUser>();
+              #endregion
 
-              // services.AddScoped<IDebtRepository, DebtRepository>();
-              services.AddScoped<IDebtService, DebtService>();
+              #region Repositories and Services
+                services.AddScoped<IUserRepository, UserRepository>();
+                services.AddScoped<IUserService, UserService>();
+
+                services.AddScoped<IDebtRepository, DebtRepository>();
+                services.AddScoped<IDebtService, DebtService>();
+              #endregion
             #endregion
 
         }

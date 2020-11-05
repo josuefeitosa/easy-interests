@@ -5,18 +5,44 @@ using EasyInterests.API.Application.Models;
 using EasyInterests.API.Application.ViewModels;
 using EasyInterests.API.Enums;
 using EasyInterests.API.Helpers;
+using EasyInterests.API.Infrastructure.Repositories;
 
 namespace EasyInterests.API.Application.Services
 {
   public class DebtService : IDebtService
   {
-    public void Create(CreateDebtDTO debt)
+    private readonly IUserService _userService;
+    private readonly IDebtRepository _debtRepository;
+
+    public DebtService(IUserService userService, IDebtRepository debtRepository)
     {
-      var calculatedDebt = this.CalculateDebt(debt);
+      _userService = userService;
+      _debtRepository = debtRepository;
     }
 
-    public Debt CalculateDebt(CreateDebtDTO debt)
+    public void Create(string negotiatorEmail, CreateDebtDTO debt)
     {
+      var negotiator = _userService.GetUserByEmail(negotiatorEmail);
+
+      var calculatedDebt = this.CalculateDebt(negotiator, debt);
+    }
+
+    public Debt CalculateDebt(User negotiator, CreateDebtDTO debt)
+    {
+      Debt calculatedDebt = new Debt{
+        Description = debt.Description,
+        CustomerId = debt.CustomerId,
+        DueDate = debt.DueDate,
+        Negotiator = negotiator,
+        NegotiatorId = negotiator.Id,
+        InterestInterval = debt.InterestInterval,
+        InterestPercentage = debt.InterestPercentage,
+        InterestType = debt.InterestType,
+        NegotiatorComissionPercentage = debt.NegotiatorComissionPercentage,
+        OriginalValue = debt.OriginalValue,
+        ParcelsQty = debt.ParcelsQty
+      };
+
       #region Calculating value with interests
       var calcDate = DateTime.Now;
       double calcValue = 0.00;
@@ -70,20 +96,15 @@ namespace EasyInterests.API.Application.Services
       }
       #endregion
 
-      Debt calculatedDebt = new Debt{
-        Description = debt.Description,
-        CustomerId = debt.CustomerId,
-        NegotiatorId = debt.NegotiatorId,
-        DueDate = debt.DueDate,
-        InterestInterval = debt.InterestInterval,
-        InterestPercentage = debt.InterestPercentage,
-        InterestType = debt.InterestType,
-        NegotiatorComissionPercentage = debt.NegotiatorComissionPercentage,
-        OriginalValue = debt.OriginalValue,
-        ParcelsQty = debt.ParcelsQty,
-      };
-
+      calculatedDebt.InterestCalcDate = calcDate;
       calculatedDebt.RecalculatedValue = calcValue;
+
+      var customer = _userService.GetUser(calculatedDebt.CustomerId);
+
+      if (customer is null)
+        return null;
+      else
+        calculatedDebt.Customer = customer;
 
       return calculatedDebt;
     }

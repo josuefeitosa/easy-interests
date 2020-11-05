@@ -7,8 +7,8 @@ namespace EasyInterests.API.Application.Services
 {
     public interface IDebtService
     {
-      void Create(CreateDebtDTO debt);
-      Debt CalculateDebt(CreateDebtDTO debt);
+      void Create(string negotiatorEmail, CreateDebtDTO debt);
+      Debt CalculateDebt(User negotiator, CreateDebtDTO debt);
       void UpdatePaidParcel(int parcelNumber);
       void UpdatePaidDebt(int Id);
       List<DebtListViewModel> GetList();

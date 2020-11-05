@@ -19,6 +19,7 @@ namespace AuthenticationJWT.Helpers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim(ClaimTypes.Email, user.Email.ToString()),
                     new Claim(ClaimTypes.Name, user.Name.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),

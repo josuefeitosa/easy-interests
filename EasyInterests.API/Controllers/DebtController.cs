@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
 using EasyInterests.API.Application.DTOs;
+using EasyInterests.API.Application.Models;
 using EasyInterests.API.Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +14,11 @@ namespace EasyInterests.API.Controllers
     public class DebtController : ControllerBase
     {
       private readonly IDebtService _debtService;
-      public DebtController(IDebtService debtService)
+      private readonly AuthenticatedUser _user;
+      public DebtController(IDebtService debtService, AuthenticatedUser user)
       {
         _debtService = debtService;
+        _user = user;
       }
 
       [HttpPost]
@@ -22,7 +27,7 @@ namespace EasyInterests.API.Controllers
       {
         try
         {
-          _debtService.Create(debt);
+          _debtService.Create(_user.Email, debt);
 
           return Ok();
         }

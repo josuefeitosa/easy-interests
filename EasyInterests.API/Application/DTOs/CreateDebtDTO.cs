@@ -7,7 +7,6 @@ namespace EasyInterests.API.Application.DTOs
   {
     public CreateDebtDTO(
       int customerId,
-      int negotiatorId,
       string description,
       double originalValue,
       DateTime dueDate,
@@ -19,7 +18,6 @@ namespace EasyInterests.API.Application.DTOs
       )
     {
       this.CustomerId = customerId;
-      this.NegotiatorId = negotiatorId;
       this.Description = description;
       this.OriginalValue = originalValue;
       this.DueDate = dueDate;
@@ -31,7 +29,6 @@ namespace EasyInterests.API.Application.DTOs
 
     }
     public int CustomerId { get; set; }
-    public int NegotiatorId { get; set; }
     public string Description { get; set; }
     public double OriginalValue { get; set; }
     public DateTime DueDate { get; set; }
