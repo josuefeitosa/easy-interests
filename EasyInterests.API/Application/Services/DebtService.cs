@@ -25,6 +25,8 @@ namespace EasyInterests.API.Application.Services
       var negotiator = _userService.GetUserByEmail(negotiatorEmail);
 
       var calculatedDebt = this.CalculateDebt(negotiator, debt);
+
+      _debtRepository.Create(calculatedDebt);
     }
 
     public Debt CalculateDebt(User negotiator, CreateDebtDTO debt)
@@ -99,18 +101,40 @@ namespace EasyInterests.API.Application.Services
       calculatedDebt.InterestCalcDate = calcDate;
       calculatedDebt.RecalculatedValue = calcValue;
 
+      #region Defining Customer
       var customer = _userService.GetUser(calculatedDebt.CustomerId);
 
       if (customer is null)
         return null;
       else
         calculatedDebt.Customer = customer;
+      #endregion
+
+      #region Calculating parcels
+        var firstParcelDate = calcDate.AddDays(1);
+
+        var parcels = new List<DebtParcel>();
+        for (int i = 0; i < debt.ParcelsQty; i++)
+        {
+            var parcel = new DebtParcel();
+
+            parcel.Parcel = i+1;
+            parcel.DueDate = firstParcelDate.AddMonths(i);
+            parcel.Debt = calculatedDebt;
+            parcel.Value = calculatedDebt.RecalculatedValue / debt.ParcelsQty;
+            parcel.Paid = false;
+
+            parcels.Add(parcel);
+        }
+      #endregion
+
+      calculatedDebt.Parcels = parcels;
 
       return calculatedDebt;
     }
     public List<DebtListViewModel> GetList()
     {
-      throw new System.NotImplementedException();
+      return _debtRepository.GetAll();
     }
 
     public void UpdatePaidDebt(int Id)

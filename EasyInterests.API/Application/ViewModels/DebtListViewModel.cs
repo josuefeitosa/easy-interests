@@ -13,10 +13,11 @@ namespace EasyInterests.API.Application.ViewModels
     public string NegotiatorPhone { get; set; }
     public string Description { get; set; }
     public double OriginalValue { get; set; }
+    public double RecalculatedValue { get; set; }
     public DateTime DueDate { get; set; }
     public int ParcelsQty { get; set; }
-    public InterestTypesEnum InterestType { get; set; }
-    public InterestIntervalsEnum InterestInterval { get; set; }
+    public string InterestType { get; set; }
+    public string InterestInterval { get; set; }
     public double InterestPercentage { get; set; }
     public double NegotiatorComissionPercentage { get; set; }
     public List<DebtParcel> Parcels { get; set; }

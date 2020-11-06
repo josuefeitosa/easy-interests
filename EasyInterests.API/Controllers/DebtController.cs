@@ -37,5 +37,21 @@ namespace EasyInterests.API.Controllers
         }
 
       }
+
+      [HttpGet]
+      [AllowAnonymous]
+      public IActionResult Get()
+      {
+        try
+        {
+          var debts = _debtService.GetList();
+
+          return Ok(debts);
+        }
+        catch (Exception e)
+        {
+          return BadRequest(e.Message);
+        }
+      }
     }
 }
