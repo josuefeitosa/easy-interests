@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EasyInterests.API.Application.DTOs;
 using EasyInterests.API.Application.Models;
 
 namespace EasyInterests.API.Infrastructure.Repositories
@@ -10,6 +11,6 @@ namespace EasyInterests.API.Infrastructure.Repositories
       Task<User> GetUser(int Id);
       User GetUserByEmail(string Email);
       void Create(User user);
-      void Update(int Id, User updatedUser);
+      void Update(int Id, UpdateUserDTO updatedUser);
     }
 }

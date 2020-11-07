@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using EasyInterests.API.Application.DTOs;
 using EasyInterests.API.Application.Models;
 using EasyInterests.API.Application.Services;
+using EasyInterests.API.Application.ViewModels;
+using EasyInterests.API.Enums;
 using EasyInterests.API.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,22 +16,24 @@ namespace EasyInterests.API.Controllers
   public class UserController : ControllerBase
   {
     private readonly IUserService _userService;
+    private readonly AuthenticatedUser _user;
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, AuthenticatedUser user)
     {
       _userService = userService;
+      _user = user;
     }
 
     [HttpGet]
     [Authorize(Roles = "Negotiator")]
-    public ActionResult<List<User>> GetAll()
+    public ActionResult<List<UserListViewModel>> GetAll()
     {
       return Ok(_userService.GetAll());
     }
 
     [HttpGet("{id}")]
     [Authorize(Roles = "Negotiator")]
-    public ActionResult<User> GetUser(int id)
+    public ActionResult<UserListViewModel> GetUser(int id)
     {
       try
       {
@@ -83,14 +87,26 @@ namespace EasyInterests.API.Controllers
     }
 
     [HttpPut]
-    [Authorize(Roles = "Negotiator")]
+    [Authorize(Roles = "Customer,Negotiator")]
     public IActionResult Put([FromQuery]int Id,[FromBody]UpdateUserDTO user)
     {
       try
       {
-        _userService.Update(Id, user);
+        var existingUser = _userService.GetUser(Id);
 
-        return Ok();
+        if (existingUser is null)
+          return NotFound("User does not exists.");
+
+        if (_user.Email == existingUser.Email || _user.Role == UserRolesEnum.Negotiator.ToString())
+        {
+          _userService.Update(Id, user);
+          return Ok("Updated");
+        }
+        else
+        {
+          return Unauthorized("You can not update this user.");
+        }
+
       }
       catch (Exception e)
       {

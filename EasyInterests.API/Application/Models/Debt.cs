@@ -7,7 +7,7 @@ namespace EasyInterests.API.Application.Models
   public class Debt
   {
     public Debt() { }
-    public Debt(int id, int customerId, int negotiatorId, string description, double originalValue, double recalculatedValue, DateTime dueDate, DateTime interestCalcDate, int parcelsQty, InterestTypesEnum interestType, InterestIntervalsEnum interestInterval, double interestPercentage, double negotiatorComissionPercentage)
+    public Debt(int id, int customerId, User customer, int negotiatorId, string description, double originalValue, double recalculatedValue, DateTime dueDate, DateTime interestCalcDate, int parcelsQty, InterestTypesEnum interestType, InterestIntervalsEnum interestInterval, double interestPercentage, double negotiatorComissionPercentage)
     {
       this.Id = id;
       this.CustomerId = customerId;

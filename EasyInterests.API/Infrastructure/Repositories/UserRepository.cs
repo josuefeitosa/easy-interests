@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyInterests.API.Application.Models;
 using System.Data;
+using EasyInterests.API.Application.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyInterests.API.Infrastructure.Repositories
 {
@@ -67,7 +69,14 @@ namespace EasyInterests.API.Infrastructure.Repositories
     {
       try
       {
-        var user = _dbContext.Users.SingleOrDefault(x => x.Email == Email);
+        var user = _dbContext.Users
+          .Include(x => x.DebtsAsNegotiator)
+          .SingleOrDefault(x => x.Email == Email);
+
+        foreach(var debtAsNegotiator in user.DebtsAsNegotiator)
+        {
+          debtAsNegotiator.Negotiator = null;
+        }
 
         return user;
       }
@@ -77,7 +86,7 @@ namespace EasyInterests.API.Infrastructure.Repositories
       }
     }
 
-    public async void Update(int Id, User updatedUser)
+    public async void Update(int Id, UpdateUserDTO updatedUser)
     {
       try
       {

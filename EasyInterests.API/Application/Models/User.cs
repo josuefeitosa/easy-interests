@@ -13,7 +13,6 @@ namespace EasyInterests.API.Application.Models
       this.Email = email;
       this.Role = role;
       this.PhoneNumber = phoneNumber;
-
     }
     public int Id { get; set; }
     public string Name { get; set; }

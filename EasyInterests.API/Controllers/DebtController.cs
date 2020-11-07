@@ -53,5 +53,21 @@ namespace EasyInterests.API.Controllers
           return BadRequest(e.Message);
         }
       }
+
+      [HttpPut]
+      [Authorize( Roles = "Negotiator")]
+      public IActionResult Update(int Id, UpdateDebtDTO updateDebt)
+      {
+        try
+        {
+          _debtService.Update(Id, updateDebt);
+
+          return Ok("Updated");
+        }
+        catch (Exception e)
+        {
+          return BadRequest(e.Message);
+        }
+      }
     }
 }

@@ -9,8 +9,7 @@ namespace EasyInterests.API.Application.Services
     {
       void Create(string negotiatorEmail, CreateDebtDTO debt);
       Debt CalculateDebt(User negotiator, CreateDebtDTO debt);
-      void UpdatePaidParcel(int parcelNumber);
-      void UpdatePaidDebt(int Id);
+      void Update(int debtId, UpdateDebtDTO updatedDebt);
       List<DebtListViewModel> GetList();
     }
 }

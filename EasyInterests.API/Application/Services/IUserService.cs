@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using EasyInterests.API.Application.DTOs;
 using EasyInterests.API.Application.Models;
+using EasyInterests.API.Application.ViewModels;
 
 namespace EasyInterests.API.Application.Services
 {
     public interface IUserService
     {
-      List<User> GetAll();
+      List<UserListViewModel> GetAll();
       User GetUser(int Id);
       User GetUserByEmail(string Email);
       void Create(CreateUserDTO user);

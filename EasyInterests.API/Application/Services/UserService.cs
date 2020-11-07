@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyInterests.API.Application.DTOs;
 using EasyInterests.API.Application.Models;
+using EasyInterests.API.Application.ViewModels;
 using EasyInterests.API.Infrastructure.Repositories;
 
 namespace EasyInterests.API.Application.Services
@@ -9,9 +11,11 @@ namespace EasyInterests.API.Application.Services
   public class UserService : IUserService
   {
     private readonly IUserRepository _userRepository;
-    public UserService(IUserRepository userRepository)
+    private readonly IDebtRepository _debtRepository;
+    public UserService(IUserRepository userRepository, IDebtRepository debtRepository)
     {
       _userRepository = userRepository;
+      _debtRepository = debtRepository;
     }
 
     public void Create(CreateUserDTO user)
@@ -26,9 +30,17 @@ namespace EasyInterests.API.Application.Services
       _userRepository.Create(userObj);
     }
 
-    public List<User> GetAll()
+    public List<UserListViewModel> GetAll()
     {
-      return _userRepository.GetAll();
+      var users = _userRepository.GetAll();
+
+      return users.Select(x => new UserListViewModel {
+        Id = x.Id,
+        Name = x.Name,
+        Email = x.Email,
+        PhoneNumber = x.PhoneNumber,
+        Role = x.Role.ToString()
+      }).ToList();
     }
 
     public User GetUser(int Id)
@@ -43,21 +55,7 @@ namespace EasyInterests.API.Application.Services
 
     public void Update(int Id, UpdateUserDTO updatedUser)
     {
-      var userObj = new User();
-
-      if (updatedUser.Name != null)
-        userObj.Name = updatedUser.Name;
-
-      if (updatedUser.Email != null)
-        userObj.Email = updatedUser.Email;
-
-      if (updatedUser.PhoneNumber != null)
-        userObj.PhoneNumber = updatedUser.PhoneNumber;
-
-      if (updatedUser.Role != 0)
-        userObj.Role = updatedUser.Role;
-
-      _userRepository.Update(Id, userObj);
+      _userRepository.Update(Id, updatedUser);
     }
   }
 }

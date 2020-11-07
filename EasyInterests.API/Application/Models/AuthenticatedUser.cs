@@ -16,6 +16,7 @@ namespace EasyInterests.API.Application.Models
 
 			public string Email => GetClaimsIdentity().FirstOrDefault(a => a.Type == ClaimTypes.Email)?.Value;
 			public string Name => GetClaimsIdentity().FirstOrDefault(a => a.Type == ClaimTypes.NameIdentifier)?.Value;
+			public string Role => GetClaimsIdentity().FirstOrDefault(a => a.Type == ClaimTypes.Role)?.Value;
 
 			public IEnumerable<Claim> GetClaimsIdentity()
 			{

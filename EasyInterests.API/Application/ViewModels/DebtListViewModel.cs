@@ -7,6 +7,8 @@ namespace EasyInterests.API.Application.ViewModels
 {
   public class DebtListViewModel
   {
+    public DebtListViewModel() { }
+
     public int Id { get; set; }
     public string CustomerName { get; set; }
     public string NegotiatorName { get; set; }
@@ -21,5 +23,6 @@ namespace EasyInterests.API.Application.ViewModels
     public double InterestPercentage { get; set; }
     public double NegotiatorComissionPercentage { get; set; }
     public List<DebtParcel> Parcels { get; set; }
+    public bool Paid { get; set; }
   }
 }

@@ -132,19 +132,22 @@ namespace EasyInterests.API.Application.Services
 
       return calculatedDebt;
     }
+
     public List<DebtListViewModel> GetList()
     {
       return _debtRepository.GetAll();
     }
 
-    public void UpdatePaidDebt(int Id)
+    public void Update(int debtId, UpdateDebtDTO updatedDebt)
     {
-      throw new System.NotImplementedException();
-    }
-
-    public void UpdatePaidParcel(int parcelNumber)
-    {
-      throw new System.NotImplementedException();
+      try
+      {
+        _debtRepository.Update(debtId, updatedDebt);
+      }
+      catch (Exception e)
+      {
+        throw new Exception($"Houve um problema ao fazer esta operação.\n-> {e.Message}");
+      }
     }
   }
 }
