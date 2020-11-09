@@ -62,4 +62,21 @@ Desenvolva um sistema que atualize o cálculo de uma dívida.
     - Dívida (Debt)
 
 - Ações
-    - Cliente poderá  visualizar as dívidas corrigidas juntamente do número do negociador
+    - Cliente poderá  visualizar as dívidas corrigidas juntamente do número do negociador;
+    - Negociador poderá cadastrar novas dívidas e definir parâmetros dinâmicos como:
+        - Comissão do negociador;
+        - Regra de juros;
+        - Quantidade de parcelas;
+        
+## Como rodar o ambiente:
+
+### Back-end
+- Ter o ASP NET Core 3.1 instalado;
+- Criar appsettings.json baseado na versão development;
+- Executar o projetoe EasyInterests.API.csproj;
+
+### Front-end (web)
+- Ter o yarn e node (ver. 12 ou superior) instalados;
+- Instalar dependências com o comando "yarn";
+- Rodar projeto com o comando "yarn start";
+- É importante que o back-end esteja rodando no momento que executar o front-end;
