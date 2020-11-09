@@ -54,6 +54,23 @@ namespace EasyInterests.API.Controllers
         }
       }
 
+      [HttpGet]
+      [Route("byuser")]
+      [AllowAnonymous]
+      public IActionResult GetByUser([FromQuery]int userId)
+      {
+        try
+        {
+          var debts = _debtService.GetListByUser(userId);
+
+          return Ok(debts);
+        }
+        catch (Exception e)
+        {
+          return BadRequest(e.Message);
+        }
+      }
+
       [HttpPut]
       [Authorize( Roles = "Negotiator")]
       public IActionResult Update(int Id, UpdateDebtDTO updateDebt)

@@ -40,8 +40,9 @@ namespace EasyInterests.API.Infrastructure.Repositories
           CustomerName = x.Customer.Name,
           Description = x.Description,
           DueDate = x.DueDate,
-          InterestInterval = x.InterestInterval.ToString(),
-          InterestType = x.InterestType.ToString(),
+          CalculationDate = x.InterestCalcDate,
+          InterestInterval = x.InterestInterval,
+          InterestType = x.InterestType,
           RecalculatedValue = x.RecalculatedValue,
           ParcelsQty = x.ParcelsQty,
           InterestPercentage = x.InterestPercentage,
@@ -65,7 +66,24 @@ namespace EasyInterests.API.Infrastructure.Repositories
     {
       try
       {
-        return _dbContext.Debts.Where(x => x.CustomerId == userId).ToList();
+        var debts = _dbContext.Debts
+          .Include(x => x.Customer)
+          .Include(x => x.Negotiator)
+          .Include(x => x.Parcels).Where(x => x.CustomerId == userId).ToList();
+
+        if (debts != null)
+        {
+          foreach(var debt in debts)
+          {
+            debt.Customer = null;
+            foreach (var parcel in debt.Parcels)
+            {
+                parcel.Debt = null;
+            }
+          }
+        }
+
+        return debts;
       }
       catch (Exception e)
       {
@@ -77,7 +95,24 @@ namespace EasyInterests.API.Infrastructure.Repositories
     {
       try
       {
-        return _dbContext.Debts.Where(x => x.NegotiatorId == userId).ToList();
+        var debts = _dbContext.Debts
+          .Include(x => x.Customer)
+          .Include(x => x.Negotiator)
+          .Include(x => x.Parcels).Where(x => x.NegotiatorId == userId).ToList();
+
+        if (debts != null)
+        {
+          foreach(var debt in debts)
+          {
+            debt.Negotiator = null;
+            foreach (var parcel in debt.Parcels)
+            {
+                parcel.Debt = null;
+            }
+          }
+        }
+
+        return debts;
       }
       catch (Exception e)
       {
@@ -116,9 +151,6 @@ namespace EasyInterests.API.Infrastructure.Repositories
         if (updatedDebt.NegotiatorComissionPercentage != 0)
           debt.NegotiatorComissionPercentage = updatedDebt.NegotiatorComissionPercentage;
 
-        if (updatedDebt.Paid != debt.Paid)
-          debt.Paid = updatedDebt.Paid;
-
         if (updatedDebt.Parcels != null)
         {
           foreach (var updatedParcel in updatedDebt.Parcels)
@@ -133,6 +165,11 @@ namespace EasyInterests.API.Infrastructure.Repositories
               if (existingParcel.Paid != updatedParcel.Paid)
                 existingParcel.Paid = updatedParcel.Paid;
           }
+
+        var parcelNotPaid = updatedDebt.Parcels.FirstOrDefault(x => x.Paid == false);
+
+        if (parcelNotPaid is null)
+          debt.Paid = true;
         }
 
         await _dbContext.SaveChangesAsync();

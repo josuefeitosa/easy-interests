@@ -153,13 +153,13 @@ namespace EasyInterests.API.Infrastructure.Migrations
                     b.HasOne("EasyInterests.API.Application.Models.User", "Customer")
                         .WithMany("DebtsAsCustomer")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyInterests.API.Application.Models.User", "Negotiator")
                         .WithMany("DebtsAsNegotiator")
                         .HasForeignKey("NegotiatorId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -172,7 +172,7 @@ namespace EasyInterests.API.Infrastructure.Migrations
                     b.HasOne("EasyInterests.API.Application.Models.Debt", "Debt")
                         .WithMany("Parcels")
                         .HasForeignKey("DebtId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Debt");

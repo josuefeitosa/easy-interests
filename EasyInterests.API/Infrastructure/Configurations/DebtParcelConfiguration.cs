@@ -20,7 +20,7 @@ namespace EasyInterests.API.Infrastructure.Configurations
         .HasOne(x => x.Debt)
         .WithMany(x => x.Parcels)
         .HasForeignKey(x => x.DebtId)
-        .OnDelete(DeleteBehavior.SetNull)
+        .OnDelete(DeleteBehavior.Cascade)
         .IsRequired();
 
       builder.ToTable("debt_parcels");

@@ -11,5 +11,6 @@ namespace EasyInterests.API.Application.Services
       Debt CalculateDebt(User negotiator, CreateDebtDTO debt);
       void Update(int debtId, UpdateDebtDTO updatedDebt);
       List<DebtListViewModel> GetList();
+      List<DebtListViewModel> GetListByUser(int id);
     }
 }

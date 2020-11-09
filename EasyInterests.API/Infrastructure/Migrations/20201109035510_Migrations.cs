@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EasyInterests.API.Infrastructure.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class Migrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,13 +51,13 @@ namespace EasyInterests.API.Infrastructure.Migrations
                         column: x => x.customer_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_debts_users_negotiator_id",
                         column: x => x.negotiator_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,7 +80,7 @@ namespace EasyInterests.API.Infrastructure.Migrations
                         column: x => x.debt_id,
                         principalTable: "debts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

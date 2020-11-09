@@ -17,9 +17,10 @@ namespace EasyInterests.API.Application.ViewModels
     public double OriginalValue { get; set; }
     public double RecalculatedValue { get; set; }
     public DateTime DueDate { get; set; }
+    public DateTime CalculationDate { get; set; }
     public int ParcelsQty { get; set; }
-    public string InterestType { get; set; }
-    public string InterestInterval { get; set; }
+    public InterestTypesEnum InterestType { get; set; }
+    public InterestIntervalsEnum InterestInterval { get; set; }
     public double InterestPercentage { get; set; }
     public double NegotiatorComissionPercentage { get; set; }
     public List<DebtParcel> Parcels { get; set; }

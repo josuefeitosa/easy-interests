@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EasyInterests.API.Application.DTOs;
 using EasyInterests.API.Application.Models;
 using EasyInterests.API.Application.ViewModels;
@@ -136,6 +137,51 @@ namespace EasyInterests.API.Application.Services
     public List<DebtListViewModel> GetList()
     {
       return _debtRepository.GetAll();
+    }
+
+    public List<DebtListViewModel> GetListByUser(int id)
+    {
+      var user = _userService.GetUser(id);
+
+      if (user.Role == UserRolesEnum.Customer)
+        return _debtRepository.GetByCustomer(id).Select(x => new DebtListViewModel {
+          Id = x.Id,
+          CustomerName = user.Name,
+          Description = x.Description,
+          DueDate = x.DueDate,
+          CalculationDate = x.InterestCalcDate,
+          InterestInterval = x.InterestInterval,
+          InterestPercentage = x.InterestPercentage,
+          InterestType = x.InterestType,
+          NegotiatorComissionPercentage = x.NegotiatorComissionPercentage,
+          NegotiatorName = x.Negotiator.Name,
+          NegotiatorPhone = x.Negotiator.PhoneNumber,
+          OriginalValue = x.OriginalValue,
+          Paid = x.Paid,
+          Parcels = x.Parcels.ToList(),
+          ParcelsQty = x.ParcelsQty,
+          RecalculatedValue = x.RecalculatedValue
+        }).ToList();
+      else
+        return _debtRepository.GetByNegotiator(id).Select(x => new DebtListViewModel {
+          Id = x.Id,
+          CustomerName = x.Customer.Name,
+          Description = x.Description,
+          DueDate = x.DueDate,
+          CalculationDate = x.InterestCalcDate,
+          InterestInterval = x.InterestInterval,
+          InterestPercentage = x.InterestPercentage,
+          InterestType = x.InterestType,
+          NegotiatorComissionPercentage = x.NegotiatorComissionPercentage,
+          NegotiatorName = user.Name,
+          NegotiatorPhone = user.PhoneNumber,
+          OriginalValue = x.OriginalValue,
+          Paid = x.Paid,
+          Parcels = x.Parcels.ToList(),
+          ParcelsQty = x.ParcelsQty,
+          RecalculatedValue = x.RecalculatedValue
+        }).ToList();
+
     }
 
     public void Update(int debtId, UpdateDebtDTO updatedDebt)

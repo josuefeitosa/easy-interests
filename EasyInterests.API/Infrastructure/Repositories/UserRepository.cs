@@ -70,13 +70,7 @@ namespace EasyInterests.API.Infrastructure.Repositories
       try
       {
         var user = _dbContext.Users
-          .Include(x => x.DebtsAsNegotiator)
           .SingleOrDefault(x => x.Email == Email);
-
-        foreach(var debtAsNegotiator in user.DebtsAsNegotiator)
-        {
-          debtAsNegotiator.Negotiator = null;
-        }
 
         return user;
       }

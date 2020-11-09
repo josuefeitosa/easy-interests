@@ -19,8 +19,8 @@ namespace EasyInterests.API.Application.Models
     public string Email { get; set; }
     public UserRolesEnum Role { get; set; }
     public string PhoneNumber { get; set; }
-    public virtual ICollection<Debt> DebtsAsCustomer { get; set; }
-    public virtual ICollection<Debt> DebtsAsNegotiator { get; set; }
+    public virtual ICollection<Debt>? DebtsAsCustomer { get; set; }
+    public virtual ICollection<Debt>? DebtsAsNegotiator { get; set; }
   }
 
   public class Auth

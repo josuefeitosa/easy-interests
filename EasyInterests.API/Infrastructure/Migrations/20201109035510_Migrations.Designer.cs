@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyInterests.API.Infrastructure.Migrations
 {
     [DbContext(typeof(EasyInterestsDBContext))]
-    [Migration("20201104202503_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20201109035510_Migrations")]
+    partial class Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,13 +155,13 @@ namespace EasyInterests.API.Infrastructure.Migrations
                     b.HasOne("EasyInterests.API.Application.Models.User", "Customer")
                         .WithMany("DebtsAsCustomer")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyInterests.API.Application.Models.User", "Negotiator")
                         .WithMany("DebtsAsNegotiator")
                         .HasForeignKey("NegotiatorId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -174,7 +174,7 @@ namespace EasyInterests.API.Infrastructure.Migrations
                     b.HasOne("EasyInterests.API.Application.Models.Debt", "Debt")
                         .WithMany("Parcels")
                         .HasForeignKey("DebtId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Debt");

@@ -28,21 +28,21 @@ namespace EasyInterests.API.Infrastructure.Configurations
         .HasOne(x => x.Customer)
         .WithMany(x => x.DebtsAsCustomer)
         .HasForeignKey(x => x.CustomerId)
-        .OnDelete(DeleteBehavior.SetNull)
+        .OnDelete(DeleteBehavior.Cascade)
         .IsRequired();
 
       builder
         .HasOne(x => x.Negotiator)
         .WithMany(x => x.DebtsAsNegotiator)
         .HasForeignKey(x => x.NegotiatorId)
-        .OnDelete(DeleteBehavior.SetNull)
+        .OnDelete(DeleteBehavior.Cascade)
         .IsRequired();
 
       builder
         .HasMany(x => x.Parcels)
         .WithOne(x => x.Debt)
         .HasForeignKey(x => x.DebtId)
-        .OnDelete(DeleteBehavior.SetNull)
+        .OnDelete(DeleteBehavior.Cascade)
         .IsRequired();
 
       builder.ToTable("debts");
